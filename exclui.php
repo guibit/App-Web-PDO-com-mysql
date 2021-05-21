@@ -1,4 +1,5 @@
 <?php
+require_once 'autentica.php';
 require_once 'inicia.php';
 /**Armazena o codigo do usuario a ser excluido */
 $id = isset($_GET['id'])? $_GET['id'] :null;

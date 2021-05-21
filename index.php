@@ -1,4 +1,5 @@
 <?php
+require_once 'autentica.php';
 require_once 'conecta.php';
 $PDO = conecta_bd();
 ?>
@@ -15,6 +16,7 @@ $PDO = conecta_bd();
 <body class="bg-dark" style="color:#d2edf7">
     <div class="container bg-dark">
         <h1 style="text-align: center;">Cadastro de Clientes </h1>
+        <?php echo '<h3>Olá '.$_SESSION['nome'].'</h3>';    ?>
         <p style="text-align:center;"><a href="formulario.php" style="font-size: 16pt;">Adicionar Cliente</a></p>
         <h2>Lista de clientes cadastrados</h2>
         <?php
@@ -37,6 +39,8 @@ $PDO = conecta_bd();
                     <th>Endereço</th>
                     <th>Sexo</th>
                     <th>Cartão</th>
+                    <th>Abrir</th>
+                    <th>Thumbnail</th>
                     <th>Mudar</th>
                 </tr>
             </thead>
@@ -52,6 +56,8 @@ $PDO = conecta_bd();
                     <td><?php echo $resultado['endereco']?></td>
                     <td><?php echo $resultado['sexo'] ?></td>
                     <td><?php echo $resultado['cartao']?></td>
+                    <td><a href='abrir_arquivo.php?id=<?php echo $resultado['id']?>'>abrir</a></td>
+                    <td><img src='abrir_arquivo.php?id=<?php echo $resultado['id']?>' width='120px'/></td>
 
                     <td><a href="form_altera.php?id=<?php echo $resultado['id'] ?>">Alterar</a>
                     <a href="exclui.php?id=<?php echo $resultado['id'] ?>" onclick="return confirm('Tem certeza de que desenha excluir o registro?');">Excluir</a></td>
@@ -63,6 +69,11 @@ $PDO = conecta_bd();
         <?php else: ?>
         <p>Não há Clientes cadastrados</p>
         <?php endif; ?>
+        <?php if(isset($_GET['sair'])){
+            session_destroy();
+            header('Location: login.php');
+        } ?>
+        <div style="text-align: center;"><a href="?sair">Logout</a></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </body>

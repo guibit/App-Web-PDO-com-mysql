@@ -1,4 +1,5 @@
 <?php
+require_once 'autentica.php';
 require 'inicia.php';
 //Recebe valores do Id escolhido para alterar
 $id = isset($_GET["id"])?$_GET["id"]:null;
@@ -29,7 +30,7 @@ if(!is_array($resultado)){
 </head>
 <body>
     <h2>Cadastro de Usuário - Alteração</h2>
-    <form action="altera.php" method="POST" style="max-width: 400px; margin-left:30px" class="row g-3">
+    <form action="altera.php" method="POST" style="max-width: 400px; margin-left:30px" class="row g-3" enctype="multipart/form-data" >
         
         <div class="col-md-12">
             <label for="id" class="form-label">ID:</label>
@@ -97,7 +98,7 @@ if(!is_array($resultado)){
         </div>
         
         <div class="col-md-6 form-check">
-            <input class="form-check-input" name="cartao[]" type="checkbox" value="Visa" id="visaid">
+            <input class="form-check-input" name="cartao[]" type="checkbox" value="Visa" id="visaid" >
             <label class="form-check-label" for="visaid">
             Visa
             </label>
@@ -122,6 +123,11 @@ if(!is_array($resultado)){
         </div>
         <div class="col-md-12">
             O cartão selecionado pelo cliente foi: <B><?=$resultado['cartao']?></B>
+        </div>
+        <img src='abrir_arquivo.php?id=<?php echo $resultado['id']?>' width='120px'/>
+        <div class="col-md-12">
+            <label>Foto</label>
+            <input type="file" name="arquivo" class="form-control" >
         </div>
 
         <input class="form-control" name="id" type="hidden" placeholder="<?=$resultado['id']?>" aria-label="Id número" value="<?=$id ?>">

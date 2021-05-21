@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -16,11 +19,10 @@
         <?php
         if(isset($_SESSION['mensagem']) && !empty($_SESSION['mensagem'])){
             print "<script>alert(\"{$_SESSION['mensagem']}\")</script>";
+            $_SESSION['mensagem'] = null;
         }
         ?> 
-        <form name="cadastro" method="POST" action="inclui.php" class="row g-3">
-            
-                
+        <form enctype="multipart/form-data" name="cadastro" method="POST" action="inclui.php" class="row g-3">
                     <div class="col-md-12">
                     <td><label for="ncompleto" class="form-label">Nome Completo:</label></td>
                     <td><input type="text" name="nome" id="ncompleto" class="form-control" required></td>
@@ -93,6 +95,10 @@
                         <label class="form-check-label" for="dinersid">
                         Diners Club
                         </label>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Foto</label>
+                        <input type="file" name="arquivo" class="form-control" required>
                     </div>
 
                     <div class="col-md-6">
