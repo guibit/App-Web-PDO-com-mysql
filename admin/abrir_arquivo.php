@@ -3,13 +3,13 @@
  try
 	{
     $conecta = conecta_bd();
-		$consultaSQL = "SELECT arquivo_tipo, Foto FROM clientes WHERE id=$_GET[id]";
+		$consultaSQL = "SELECT tipo, foto FROM pacote WHERE cod=$_GET[cod]";
 		$exComando = $conecta->prepare($consultaSQL); //testar o comando
 		$exComando->execute(array());
         foreach($exComando as $resultado) 
 		{
-            $tipo = $resultado['arquivo_tipo'];
-            $conteudo = $resultado['Foto'];
+            $tipo = $resultado['tipo'];
+            $conteudo = $resultado['foto'];
             header("Content-Type: $tipo");
             echo $conteudo;
 		}	

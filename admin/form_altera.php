@@ -1,5 +1,6 @@
 <?php
 require_once 'autentica.php';
+require_once 'autentica_adm.php';
 require 'inicia.php';
 //Recebe valores do Id escolhido para alterar
 $id = isset($_GET["id"])?$_GET["id"]:null;
@@ -28,7 +29,7 @@ if(!is_array($resultado)){
     <title>Editando Usuário</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
-<body>
+<body class="bg-dark" style="color:#d2edf7">
     <h2>Cadastro de Usuário - Alteração</h2>
     <form action="altera.php" method="POST" style="max-width: 400px; margin-left:30px" class="row g-3" enctype="multipart/form-data" >
         

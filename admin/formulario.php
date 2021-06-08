@@ -14,7 +14,7 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 
-<body>
+<body class="bg-dark" style="color:#d2edf7">
     <section class="formulario">
         <?php
         if(isset($_SESSION['mensagem']) && !empty($_SESSION['mensagem'])){
@@ -102,10 +102,10 @@ session_start();
                     </div>
 
                     <div class="col-md-6">
-                        <input type="submit" name="enviar" value="Cadastrar" class="form-control" >
+                        <input type="submit" name="enviar" value="Cadastrar" class="form-control btn btn-primary" >
                     </div>
                     <div class="col-md-6">
-                        <input type="reset" name="limpar" value="Limpar" class="form-control">
+                        <input type="reset" name="limpar" value="Limpar" class="form-control btn btn-primary">
                     </div>
                 
             </table>

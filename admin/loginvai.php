@@ -5,7 +5,7 @@ session_start();
 
 // Recupera o login
 $login = isset($_POST["usuario"]) ? $_POST["usuario"] : FALSE;
-// Recupera a senha, a criptografando em MD5
+// Recupera a senha, a criptografando em hash
 $senha = isset($_POST["senha"]) ?$_POST["senha"] : FALSE;
 
 // Usuário não forneceu a senha ou o login
@@ -21,14 +21,17 @@ if(!$login || !$senha)
 * caso 0, inválido.
 */
 $pdo = conecta_bd();
-$sql = $pdo->prepare("SELECT * FROM dados_user WHERE usuario = ?");
+$sql = $pdo->prepare("SELECT * FROM usuario WHERE login = ?");
 $sql->execute([$login]);
+//verifica usuario
 if($sql->rowCount() == 1){
 	$info = $sql->fetch();
+	//verifica senhas hash
 	if(password_verify($senha, $info['senha'])){
 		$_SESSION['login'] = true;
 		$_SESSION['nome'] = $info['nome'];
-		header("Location: index.php");
+		$_SESSION['tipo'] = $info['tipo'];
+		header("Location: dashboard.php");
 		die();
 	}else{
 		//Erro

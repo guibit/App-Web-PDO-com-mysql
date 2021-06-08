@@ -1,6 +1,9 @@
 <?php
-session_start();
-/**Coleta as informações digitadas no formulario */
+require_once 'autentica.php';
+require_once 'autentica_adm.php';
+require_once 'inicia.php';
+/**Coletar as informações para alterar */
+$id = isset($_POST["id"])?$_POST["id"]:null;
 $nome = isset($_POST["nome"])?$_POST["nome"]:null;
 $email = isset($_POST["email"])?$_POST["email"]:null;
 $nascimento = isset($_POST["nascimento"])?$_POST["nascimento"]:null;
@@ -8,7 +11,7 @@ $estado = isset($_POST["estado"])?$_POST["estado"]:null;
 $endereco = isset($_POST["endereco"])?$_POST["endereco"]:null;
 $sexo = isset($_POST["sexo"])?$_POST["sexo"]:null;
 $cartao = isset($_POST["cartao"])?$_POST["cartao"]:"null";
-$strcartao = implode(" - ", $cartao);
+$strcartao = implode(" - ", $cartao); 
 
 //coleta informações do arquivo
 $arquivo = $_FILES["arquivo"]["tmp_name"];
@@ -23,18 +26,17 @@ if ( $arquivo != "none" )
     $conteudo = addslashes($conteudo);
     fclose($fp);
   }
+
 /**verificar se usuario preencheu todos os campos do formulario */
-if( empty($nome) || empty($email) || empty($nascimento) || empty($estado) || empty($endereco) || empty($sexo) || empty($cartao) || empty($arquivo)) {
+if( empty($id) || empty($nome) || empty($email) || empty($nascimento) || empty($estado) || empty($endereco) || empty($sexo) || empty($cartao) || empty($arquivo)) {
     echo "É preciso preencher todos os campos!";
     exit;
 }
-/**Insere as informações na tabela do banco de dados */
-require_once  'conecta.php';
+/**Alterar informações no banco de dados */
 $PDO = conecta_bd();
-$sql = "INSERT INTO
-clientes (nome,email,nascimento,estado,endereco,sexo,cartao, Foto, arquivo_tipo)
-VALUES (:nome,:email,:nascimento,:estado,:endereco,:sexo,:cartao,:conteudo,:tipo);";
-$stmt = $PDO->prepare($sql);
+$stmt = $PDO->prepare("UPDATE clientes 
+SET nome=:nome,email=:email,nascimento=:nascimento,estado=:estado,endereco=:endereco,sexo=:sexo,cartao=:cartao, Foto=:conteudo, arquivo_tipo=:tipo WHERE id=:id;");
+$stmt->bindParam(':id',$id, PDO::PARAM_INT);
 $stmt->bindParam(':nome',$nome);
 $stmt->bindParam(':email',$email);
 $stmt->bindParam(':nascimento',$nascimento);
@@ -44,14 +46,12 @@ $stmt->bindParam('sexo',$sexo);
 $stmt->bindParam('cartao',$strcartao);
 $stmt->bindParam(':conteudo',$conteudo, PDO::PARAM_LOB);
 $stmt->bindParam(':tipo',$tipo);
-/**$stmt->execute();*/
 
 if ($stmt->execute() ){
-    $_SESSION['mensagem'] = "Usuario cadastrado com sucesso!";
-    header('Location: formulario.php');
+    header('Location: dashboard.php');
 }
 else{
-    echo "Ocorreu um erro na inclusão de registro";
+    echo "Ocorreu um erro na Alteração de registro";
     print_r($stmt->errorInfo());
 }
 ?>
